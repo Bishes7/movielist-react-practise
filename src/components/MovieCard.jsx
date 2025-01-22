@@ -1,7 +1,7 @@
 import React from "react";
 
-const MovieCard = ({ movieObj, handleOnDelete }) => {
-  const { Title, Poster, imdbRating, Plot } = movieObj;
+const MovieCard = ({ movieObj, handleOnDelete, handleMovieToList }) => {
+  const { Title, Poster, imdbRating, Plot, mood, imdbID } = movieObj;
 
   return (
     <div className="container movie-card">
@@ -15,13 +15,28 @@ const MovieCard = ({ movieObj, handleOnDelete }) => {
           </h3>
           <p>IMDB Rating: {imdbRating}</p>
           <p>{Plot}</p>
-          <div className="d-flex justify-content-between">
-            <button className="btn btn-warning">Drama</button>
+          {!mood && (
+            <div className="d-flex justify-content-between">
+              <button
+                className="btn btn-warning"
+                onClick={() => handleMovieToList("drama")}
+              >
+                Drama
+              </button>
 
-            <button className="btn btn-primary">Action</button>
-          </div>
+              <button
+                className="btn btn-primary"
+                onClick={() => handleMovieToList("action")}
+              >
+                Action
+              </button>
+            </div>
+          )}
           <div className="d-grid mt-2">
-            <button className="btn btn-danger" onClick={handleOnDelete}>
+            <button
+              className="btn btn-danger"
+              onClick={() => handleOnDelete(imdbID)}
+            >
               Delete
             </button>
           </div>
