@@ -19,5 +19,13 @@ nav {
 .movie-card {
   background: rgba(255, 255, 255, 0.456);
   backdrop-filter: blur(3px);
-  width: 400px;
+  width: 600px;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.377);
 }

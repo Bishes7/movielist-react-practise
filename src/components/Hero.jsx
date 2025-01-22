@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MovieCard from "./MovieCard";
 import { fetchedData } from "../axios";
 import { randomChar } from "./random";
 
 const Hero = () => {
   const [movieObj, setMovieObj] = useState({});
+
+  const [bgImg, setBgImg] = useState("");
+
+  const searchedRef = useRef("");
+
   useEffect(() => {
     fetchedMovie(randomChar());
   }, []);
   const movieImg = {
-    backgroundImage: `url("https://www.omdbapi.com/src/poster.jpg")`,
+    backgroundImage: `url( ${bgImg})`,
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
@@ -18,8 +23,18 @@ const Hero = () => {
   const fetchedMovie = async (str) => {
     const movie = await fetchedData(str);
     setMovieObj(movie);
+    setBgImg(movie.Poster);
   };
 
+  const handleOnSearch = () => {
+    const str = searchedRef.current.value;
+    fetchedMovie(str);
+    searchedRef.current.value = "";
+  };
+
+  const handleOnDelete = () => {
+    setMovieObj({});
+  };
   return (
     <div>
       <nav className="py-3 text-warning fixed-top">
@@ -39,18 +54,26 @@ const Hero = () => {
           </div>
           <div className="input-group mt-5">
             <input
+              ref={searchedRef}
               type="text"
               className="form-control"
-              placeholder="Recipient's username"
-              aria-label="Recipient's username"
+              placeholder="Search for Movies"
+              aria-label="Search for Movies"
               aria-describedby="button-addon2"
             />
-            <button className="btn btn-danger" type="button" id="button-addon2">
-              Button
+            <button
+              className="btn btn-danger"
+              type="button"
+              id="button-addon2"
+              onClick={handleOnSearch}
+            >
+              Search
             </button>
           </div>
           <div className="movie-card-display">
-            <MovieCard movieObj={movieObj} />
+            {Object.keys(movieObj).length > 0 ? (
+              <MovieCard movieObj={movieObj} handleOnDelete={handleOnDelete} />
+            ) : null}
           </div>
         </div>
       </div>

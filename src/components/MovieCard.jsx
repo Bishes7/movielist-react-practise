@@ -1,6 +1,6 @@
 import React from "react";
 
-const MovieCard = ({ movieObj }) => {
+const MovieCard = ({ movieObj, handleOnDelete }) => {
   const { Title, Poster, imdbRating, Plot } = movieObj;
 
   return (
@@ -21,7 +21,9 @@ const MovieCard = ({ movieObj }) => {
             <button className="btn btn-primary">Action</button>
           </div>
           <div className="d-grid mt-2">
-            <button className="btn btn-danger">Action</button>
+            <button className="btn btn-danger" onClick={handleOnDelete}>
+              Delete
+            </button>
           </div>
         </div>
       </div>
